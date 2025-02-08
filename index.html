@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR - Occhiolino</title>
+    
+    <!-- Librerie aggiornate -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ar.js@1.7.2/aframe/build/aframe-ar.min.js"></script>
+
+    <style>
+        body { margin: 0; overflow: hidden; }
+        .button-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+        button {
+            background: white;
+            color: black;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <a-scene embedded arjs>
+        <!-- Target AR -->
+        <a-marker type="pattern" url="pattern-marker.patt">
+            <a-image id="quadro" src="quadro-normale.jpg" position="0 0 0" width="1" height="1"></a-image>
+        </a-marker>
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <!-- Bottoni -->
+    <div class="button-container">
+        <button onclick="cambiaImmagine()">👀 Occhiolino</button>
+        <button onclick="scattaFoto()">📸 Scatta Foto</button>
+    </div>
+
+    <script>
+        function cambiaImmagine() {
+            document.getElementById("quadro").setAttribute("src", "quadro-occhiolino.jpg");
+        }
+
+        function scattaFoto() {
+            html2canvas(document.body).then(canvas => {
+                let link = document.createElement("a");
+                link.href = canvas.toDataURL("image/png");
+                link.download = "AR-foto.png";
+                link.click();
+            });
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
+</body>
+</html>
